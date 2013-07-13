@@ -1,0 +1,31 @@
+{
+  "name": "roku",
+  "version": "0.0.0",
+  "description": "control your roku from node",
+  "main": "roku.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tmpvar/roku"
+  },
+  "keywords": [
+    "roku",
+    "remote",
+    "control"
+  ],
+  "author": "Elijah Insua <tmpvar@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tmpvar/roku/issues"
+  },
+  "dependencies": {
+    "sax": "~0.5.4",
+    "request": "~2.22.0",
+    "async": "~0.2.9"
+  },
+  "devDependencies": {
+    "node-ssdp": "0.0.2"
+  }
+}
