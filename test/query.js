@@ -11,7 +11,7 @@ ssdp.once('response', function inResponse(msg, rinfo) {
 
     console.log('installed apps:')
     apps.forEach(function(app) {
-      console.log(app.id + ':\t', app.name);
+      console.log(app.id + ':\t', app.name, '(v' + app.version + ')');
     });
 
     process.exit(0);

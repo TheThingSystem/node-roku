@@ -1,6 +1,7 @@
 var sax = require('sax'),
     request = require('request'),
-    async = require('async');
+    async = require('async'),
+    xml2js = require('xml2js');
 
 
 function Roku(url) {
@@ -68,7 +69,8 @@ Roku.prototype.apps = function(fn) {
   parser.on('opentag', function(node) {
     if (node.name === 'APP') {
       pending = {
-        id: parseInt(node.attributes.ID, 10)
+        id: parseInt(node.attributes.ID, 10),
+        version: node.attributes.VERSION
       };
     }
   });
@@ -108,6 +110,29 @@ Roku.prototype.launch = function(name, fn) {
   }.bind(this));
 
   this.processQueue();
+};
+
+Roku.prototype.info = function(fn) {
+  var parser = sax.createStream({ strict: true });
+  request.get(this.baseUrl).pipe(parser).on('error', fn);
+
+  var ret = {}, where = [], currentNode;
+
+  parser.on('opentag', function(node) {
+    where.unshift({});
+    currentNode = node;
+  });
+
+  parser.on('text', function(value) {
+    value = value.trim();
+    if (value && currentNode) {
+      ret[currentNode.name] = value;
+    }
+  });
+
+  parser.on('end', function() {
+    fn(null, ret);
+  });
 };
 
 Roku.prototype.processQueue = function() {
