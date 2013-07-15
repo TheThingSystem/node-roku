@@ -1,7 +1,7 @@
 var sax = require('sax'),
     request = require('request'),
     async = require('async'),
-    xml2js = require('xml2js');
+    qs = require('querystring');
 
 
 function Roku(url) {
@@ -59,6 +59,15 @@ Roku.prototype.delay = function(ms, fn) {
   });
 
   this.processQueue();
+};
+
+
+// TODO: need better tests for this, not sure if it's actually working
+Roku.prototype.input = function(obj, fn) {
+  var url = this.baseUrl + 'input?' + qs.stringify(obj);
+  request.post(url, function(e, r, b) {
+    fn && fn(e);
+  });
 };
 
 Roku.prototype.apps = function(fn) {
