@@ -98,6 +98,10 @@ Roku.prototype.apps = function(fn) {
   });
 };
 
+Roku.prototype.createIconStream = function(appId) {
+  return request.get(this.baseUrl + 'query/icon/' + appId);
+};
+
 Roku.prototype.launch = function(name, fn) {
   console.log(arguments);
   this.commandQueue.push(function(callback) {
