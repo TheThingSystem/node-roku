@@ -103,24 +103,45 @@ Roku.prototype.createIconStream = function(appId) {
 };
 
 Roku.prototype.launch = function(name, fn) {
-  console.log(arguments);
-  this.commandQueue.push(function(callback) {
-    var baseUrl = this.baseUrl;
-    name = name.toLowerCase();
-    this.apps(function(e, results) {
-      if (e) return fn(e);
+  var baseUrl = this.baseUrl;
+  if (name.indexOf('://') > -1) {
 
-      for (var i=0; i<results.length; i++) {
-        if (results[i].name.toLowerCase() === name) {
-          request.post(baseUrl + 'launch/' + results[i].id, function(e, r, b) {
-            callback(e)
-            fn && fn(e)
-          });
-          break;
+    this.commandQueue.push(function(callback) {
+      request({
+        url: name,
+        method: 'HEAD'
+      }, function(e, res, body) {
+
+        var url = baseUrl + 'launch/dev?' + qs.stringify({
+          url: name,
+          streamformat : res.headers['content-type'].split('/').pop(),
+        });
+
+        request.post(url, function(e, r, b) {
+          callback(e)
+          fn && fn(e)
+        });
+      });
+    }.bind(this));
+  } else {
+    this.commandQueue.push(function(callback) {
+
+      name = name.toLowerCase();
+      this.apps(function(e, results) {
+        if (e) return fn(e);
+
+        for (var i=0; i<results.length; i++) {
+          if (results[i].name.toLowerCase() === name) {
+            request.post(baseUrl + 'launch/' + results[i].id, function(e, r, b) {
+              callback(e)
+              fn && fn(e)
+            });
+            break;
+          }
         }
-      }
-    });
-  }.bind(this));
+      });
+    }.bind(this));
+  }
 
   this.processQueue();
 };
