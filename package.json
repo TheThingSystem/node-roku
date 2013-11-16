@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/tmpvar/roku"
+    "url": "git://github.com/TheThingSystem/roku"
   },
   "keywords": [
     "roku",
@@ -18,7 +18,7 @@
   "author": "Elijah Insua <tmpvar@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tmpvar/roku/issues"
+    "url": "https://github.com/TheThingSystem/roku/issues"
   },
   "dependencies": {
     "sax": "~0.5.4",
