@@ -12,7 +12,7 @@ wrapper around the roku "external control" api
 ```javascript
 
 var ssdp = new (require('node-ssdp'))()
-var Roku = require('../roku.js');
+var Roku = require('roku/roku.js');
 
 ssdp.once('response', function inResponse(msg, rinfo) {
   var location = msg.toString().match(/Location: (.*)/i)[1].trim();
